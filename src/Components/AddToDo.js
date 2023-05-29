@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap'
 import ToDoCount from './ToDoCount';
+import { connect } from 'react-redux';
+import { addTodo } from '../redux/actions/todo-actions';
 
-function AddToDo() {
+function AddToDo({ addTodo }) {
   const [todo, setTodo] = useState({
     title: "",
     description: ""
@@ -11,6 +13,11 @@ function AddToDo() {
   const handleTodoSubmit = (e) => {
     e.preventDefault();
     console.log("===", e, todo);
+    addTodo(todo);
+    setTodo({
+      title: "",
+      description: ""
+    })
   }
   return (
     <Container>
@@ -59,5 +66,12 @@ function AddToDo() {
     </Container>
   )
 }
+//get state from store
+const mapStateToProps = (state) => {
+}
+//set data to store using  dispatch of action
+const mapDispatchToProps = (dispatch) => ({
+  addTodo: (todo) => dispatch(addTodo(todo))
+})
 
-export default AddToDo
+export default connect(mapStateToProps, mapDispatchToProps)(AddToDo);
