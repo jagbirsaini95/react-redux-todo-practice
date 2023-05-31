@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Button, Container, Form, Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { updateTodo } from '../redux/actions/todo-actions'
-import { initialTodoState } from './AddToDo'
 
-export const UpdateTodo = ({ todo, show, onHide, todos, updateTodo }) => {
-    const [updateTodok, setUpdateTodo] = useState(initialTodoState)
+export const UpdateTodo = ({ todo, setModalShow, show, onHide, setCurrentTodo, updateTodo }) => {
 
-    // useEffect(() => {
-    //     findTodoUpdate();
-    // }, [])
-
-    // const findTodoUpdate = () => {
-    //     const currenttodo = todos.find(todo => todo.id === todoId)
-    //     console.log(currenttodo, "hhhjh");
-    //     setUpdateTodo(currenttodo)
-    // }
+    const handleUpdateTodo = () => {
+        updateTodo(todo, todo.id);
+        setModalShow(false);
+    }
 
     return (
         <Modal
@@ -31,45 +24,46 @@ export const UpdateTodo = ({ todo, show, onHide, todos, updateTodo }) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {/* //title */}
-                <Form.Group>
-                    <Form.Label>  Todo Title:</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder='Enter todo title...'
-                        value={todo.title}
-                        onChange={e => setUpdateTodo({ ...updateTodok, title: e.target.value })}
-                        required
-                    ></Form.Control>
-                </Form.Group>
+                <Form onSubmit={handleUpdateTodo}>
 
-                {/* //Description */}
-                <Form.Group className='mt-4'>
-                    <Form.Label>  Todo Description:</Form.Label>
-                    <Form.Control
-                        type="text"
-                        required
-                        as={'textarea'}
-                        placeholder='Enter todo Description...'
-                        value={todo.description}
-                        onChange={e => setUpdateTodo({ ...updateTodok, description: e.target.value })}
-                    ></Form.Control>
-                </Form.Group>
+                    {/* //title */}
+                    <Form.Group>
+                        <Form.Label>  Todo Title:</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder='Enter todo title...'
+                            value={todo.title}
+                            onChange={e => setCurrentTodo({ ...todo, title: e.target.value })}
+                            required
+                        ></Form.Control>
+                    </Form.Group>
 
-                {/* //button */}
-                <Container className='text-center mt-4'>
-                    <Button type='button' onClick={() => updateTodo(updateTodok, todo.id)} variant='primary'>
-                        update Todo
-                    </Button>
-                </Container>
+                    {/* //Description */}
+                    <Form.Group className='mt-4'>
+                        <Form.Label>  Todo Description:</Form.Label>
+                        <Form.Control
+                            type="text"
+                            required
+                            as={'textarea'}
+                            placeholder='Enter todo Description...'
+                            value={todo.description}
+                            onChange={e => setCurrentTodo({ ...todo, description: e.target.value })}
+                        ></Form.Control>
+                    </Form.Group>
+
+                    {/* //button */}
+                    <Container className='text-center mt-4'>
+                        <Button type='submit' variant='primary'>
+                            update Todo
+                        </Button>
+                    </Container>
+                </Form>
             </Modal.Body>
         </Modal>
     )
 }
 
-const mapStateToProps = (state) => {
-    return { todos: state.todos }
-}
+const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => ({
     updateTodo: (todo, id) => (dispatch(updateTodo(todo, id)))

@@ -33,7 +33,9 @@ function ToDoList({ todos, removeTodo }) {
                 }
                 {currentTodo && <UpdateTodo
                   show={modalShow}
+                  setCurrentTodo={setCurrentTodo}
                   todo={currentTodo}
+                  setModalShow={setModalShow}
                   onHide={() => setModalShow(false)}
                 />}
               </ListGroup>
