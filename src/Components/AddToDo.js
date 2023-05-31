@@ -3,21 +3,21 @@ import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap'
 import ToDoCount from './ToDoCount';
 import { connect } from 'react-redux';
 import { addTodo } from '../redux/actions/todo-actions';
+import { v4 } from 'uuid';
+
+export const initialTodoState = {
+  title: "",
+  description: "",
+  id: ""
+}
 
 function AddToDo({ addTodo }) {
-  const [todo, setTodo] = useState({
-    title: "",
-    description: ""
-  })
+  const [todo, setTodo] = useState(initialTodoState)
 
   const handleTodoSubmit = (e) => {
     e.preventDefault();
-    console.log("===", e, todo);
-    addTodo(todo);
-    setTodo({
-      title: "",
-      description: ""
-    })
+    addTodo({ ...todo, id: v4() });
+    setTodo(initialTodoState)
   }
   return (
     <Container>
@@ -36,6 +36,7 @@ function AddToDo({ addTodo }) {
                     type="text"
                     placeholder='Enter todo title...'
                     value={todo.title}
+                    required
                     onChange={e => setTodo({ ...todo, title: e.target.value })}
                   ></Form.Control>
                 </Form.Group>
@@ -45,6 +46,7 @@ function AddToDo({ addTodo }) {
                   <Form.Label>  Todo Description:</Form.Label>
                   <Form.Control
                     type="text"
+                    required
                     as={'textarea'}
                     placeholder='Enter todo Description...'
                     value={todo.description}
@@ -68,6 +70,7 @@ function AddToDo({ addTodo }) {
 }
 //get state from store
 const mapStateToProps = (state) => {
+  return {}
 }
 //set data to store using  dispatch of action
 const mapDispatchToProps = (dispatch) => ({
