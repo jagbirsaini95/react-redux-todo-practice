@@ -12,7 +12,7 @@ export const todoReducer = (state = initialState, action) => {
             return state.map((todo) => {
                 if (todo.id === action.payload.todoId) {
                     todo.title = action.payload.todo.title;
-                    todo.decription = action.payload.todo.title;
+                    todo.description = action.payload.todo.description;
                 }
                 return todo
             })
